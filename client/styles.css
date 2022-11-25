@@ -1,0 +1,98 @@
+body {
+    font-family: 'Oswald', sans-serif;
+  }
+
+  /*User osion muotoilu*/
+  #container_user{
+    width: 500px;
+    background-color:rgb(242, 255, 240);
+    border-radius: 3px;
+    padding: 0px 15px 15px 15px;
+    margin: 10px auto;
+    border: 1px solid #ddd;
+  }
+
+  h1 {
+    background-color: rgb(95, 160, 104);
+    text-align: center;
+    color: white;
+    padding: 5px;
+    border-radius:10px;
+  }
+
+  #add_user_input [type=text]{
+    border: 1px solid #ccc;
+    padding: 5px;
+    width: 300px;
+    font-size: 15px;
+    border-radius:10px;
+  }
+
+  #edit_user_button{
+    float:right;
+    margin-left: 5px;
+  }
+
+  #del_user_button{
+    float:right;
+    margin-left: 5px;
+  }
+
+  #select_player{
+    float:right;
+  }
+
+
+ /*Coursen muotoilu*/ 
+  #container_course{
+    width: 500px;
+    background-color:rgb(242, 255, 240);
+    border-radius: 3px;
+    padding: 0px 15px 15px 15px;
+    margin: 10px auto;
+    border: 1px solid #ddd;
+  }
+
+  #add_course_input [type=text]{
+    border: 1px solid #ccc;
+    padding: 5px;
+    width: 300px;
+    font-size: 15px;
+    border-radius:10px;
+  }
+
+  #edit_course_button{
+    float:right;
+    margin-left: 5px;
+  }
+
+  #del_course_button{
+    float:right;
+    margin-left: 5px;
+  }
+
+  #select_course{
+    float:right;
+  }
+
+  /*Score card muotoilu*/
+  #container_card{
+    width: 500px;
+    background-color:rgb(242, 255, 240);
+    border-radius: 3px;
+    padding: 0px 15px 15px 15px;
+    margin: 10px auto;
+    border: 1px solid #ddd;
+  }
+  
+  label{
+    display:block;
+    padding: 2px 0px;
+  }
+
+  td{
+    width: 20px;
+    border: 1px solid black;
+    margin: 0px;
+    padding: 0px;
+  }

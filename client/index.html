@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Janin FullStack ToDo-sovellus</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="code.js"></script>
+</head>
+<body onload="init()">
+
+  <div id="container_user">
+      <label>Pelaajat</label>
+      <input id="add_user_input" type="text" id="newTodo"/>
+      <button id="add_user_button">Lisää</button>
+      <button id="del_user_button">Poista</button>
+      <button id="edit_user_button">Muokkaa</button>
+      <select id="select_player" name="players"></select>
+    <label>Radat</label>
+    <input id="add_course_input" type="text" id="newTodo"/>
+    <button id="add_course_button">Lisää</button>
+    <button id="del_course_button">Poista</button>
+    <button id="edit_course_button">Muokkaa</button>
+    <select id="select_course" name="cars" id="cars">
+      <option value="Jyväskylä">Jyväskylä</option>
+      <option value="Muurame">Muurame</option>
+      <option value="Tampere">Tampere</option>
+      <option value="Jämsä">Jämsä</option>
+    </select>
+    <table>
+      <tr style="font-weight:bold">
+        <td><div>Väylä</div></td>
+        <td><div>1</div></td>
+        <td><div>2</div></td>
+        <td><div>3</div></td>
+        <td><div>4</div></td>
+        <td><div>5</div></td>
+        <td><div>6</div></td>
+        <td><div>7</div></td>
+        <td><div>8</div></td>
+        <td><div>9</div></td>
+        <td><div>10</div></td>
+        <td><div>11</div></td>
+        <td><div>12</div></td>
+        <td><div>13</div></td>
+        <td><div>14</div></td>
+        <td><div>15</div></td>
+        <td><div>16</div></td>
+        <td><div>17</div></td>
+        <td><div>18</div></td>
+      </tr>
+      <tr style="font-weight:bold">
+        <td><div>PAR</div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+      </tr>
+    </table>
+    
+  </div>
+
+  <div id="container_card">
+    <h2>Score card</h2>
+    <label>Valitse rata:</label>
+    <select id="select_card_course" name="cars" id="cars">
+      <option value="Jyväskylä">Jyväskylä</option>
+      <option value="Muurame">Muurame</option>
+      <option value="Tampere">Tampere</option>
+      <option value="Jämsä">Jämsä</option>
+    </select>
+    <label>Lisää pelaajat:</label>
+    <select id="select_card_player" name="cars" id="cars">
+      <option value="volvo">Volvo</option>
+      <option value="saab">Saab</option>
+      <option value="mercedes">Mercedes</option>
+      <option value="audi">Audi</option>
+    </select>
+    <button id="add_card_player">Lisää</button>
+    <table>
+      <tr style="font-weight:bold">
+        <td><div>Väylä</div></td>
+        <td><div>1</div></td>
+        <td><div>2</div></td>
+        <td><div>3</div></td>
+        <td><div>4</div></td>
+        <td><div>5</div></td>
+        <td><div>6</div></td>
+        <td><div>7</div></td>
+        <td><div>8</div></td>
+        <td><div>9</div></td>
+        <td><div>10</div></td>
+        <td><div>11</div></td>
+        <td><div>12</div></td>
+        <td><div>13</div></td>
+        <td><div>14</div></td>
+        <td><div>15</div></td>
+        <td><div>16</div></td>
+        <td><div>17</div></td>
+        <td><div>18</div></td>
+      </tr>
+      <tr style="font-weight:bold">
+        <td><div>PAR</div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+      </tr>
+      <tr>
+        <td><div>Pelaaja1</div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+      </tr>
+      <tr>
+        <td><div>Pelaaja2</div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+      </tr>
+      <tr>
+        <td><div>Pelaaja3</div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+      </tr>
+      <tr>
+        <td><div>Pelaaja4</div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+        <td><div contenteditable></div></td>
+      </tr>
+      </table>
+  </div>
+  </div>
+
+</body>
+</html>
