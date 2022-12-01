@@ -31,7 +31,9 @@ db.once("open", function () {
 
 // Mongoose Scheema and Model here...
 // Cards-scheema
+//HUOM!! Vaatii vielä pelaajien tulosten kirjaamisen
 const cardSchema = new mongoose.Schema({
+  date: "string",
   course_id: "string",
   player1_id: "string",
   player2_id: "string",
@@ -47,6 +49,7 @@ const Card = mongoose.model("Card", cardSchema, "cards");
 //Cards-collection routes
 app.post("/cards", async (request, response) => {
   const card = new Card({
+    date: request.body.date,
     course_id: request.body.course_id,
     player1_id: request.body.player1_id,
     player2_id: request.body.player2_id,
@@ -147,8 +150,24 @@ app.put("/players/:id", async (request, response) => {
 //Course-schema
 const courseSchema = new mongoose.Schema({
   name: "string",
-  holes: "string",
-  par: "number"
+  h1: "number",
+  h2: "number",
+  h3: "number",
+  h4: "number",
+  h5: "number",
+  h6: "number",
+  h7: "number",
+  h8: "number",
+  h9: "number",
+  h10: "number",
+  h11: "number",
+  h12: "number",
+  h13: "number",
+  h14: "number",
+  h15: "number",
+  h16: "number",
+  h17: "number",
+  h18: "number"
 })
 
 //Player-model
@@ -172,11 +191,34 @@ app.get("/courses/:id", async (request, response) => {
 app.post("/courses", async (request, response) => {
   const course = new Course({
     name: request.body.name,
-    holes: request.body.holes,
-    par: request.body.par
+    h1: request.body.h1, 
+    h2: request.body.h2,
+    h3: request.body.h3,
+    h4: request.body.h4,
+    h5: request.body.h5,
+    h6: request.body.h6,
+    h7: request.body.h7,
+    h8: request.body.h8,
+    h9: request.body.h9, 
+    h10: request.body.h10, 
+    h11: request.body.h11, 
+    h12: request.body.h12, 
+    h13: request.body.h13, 
+    h14: request.body.h14, 
+    h15: request.body.h15, 
+    h16: request.body.h16, 
+    h17: request.body.h17,
+    h18: request.body.h18
   });
   const savedCourse = await course.save();
   response.json(savedCourse);
+});
+
+// DELETE
+app.delete("/courses/:id", async (request, response) => {
+  const deletedCourse = await Course.findByIdAndRemove(request.params.id);
+  if (deletedCourse) response.json(deletedCourse);
+  else response.status(404).end();
 });
 
 // PUT/UPDATE by id

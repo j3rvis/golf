@@ -3,52 +3,66 @@ body {
   }
 
   /*User osion muotoilu*/
-  #container_user{
-    width: 500px;
+  .container{
+    width: 30%;
+    display: inline-block;
     background-color:rgb(242, 255, 240);
     border-radius: 3px;
     padding: 0px 15px 15px 15px;
-    margin: 10px auto;
+    border: 1px solid #ddd;
+  }
+  .container-right{
+    width: 55%;
+    float: right;
+    background-color:rgb(242, 255, 240);
+    border-radius: 3px;
+    padding: 15px;
     border: 1px solid #ddd;
   }
 
-  h1 {
-    background-color: rgb(95, 160, 104);
-    text-align: center;
-    color: white;
-    padding: 5px;
-    border-radius:10px;
+  fieldset{
+    border: 1px solid green;
+    width: 650px;
+    margin: 10px auto;
   }
 
-  #add_user_input [type=text]{
-    border: 1px solid #ccc;
-    padding: 5px;
-    width: 300px;
-    font-size: 15px;
-    border-radius:10px;
+  li{
+    list-style-type: square;
   }
 
-  #edit_user_button{
-    float:right;
+  #add_player_button{
+    margin-top: 5px;
+    display:block;
+  }
+ 
+  #edit_player_button{
     margin-left: 5px;
   }
 
-  #del_user_button{
-    float:right;
+  #del_player_button{
     margin-left: 5px;
   }
 
   #select_player{
-    float:right;
+    margin: 0 5px;
   }
 
+  .edit {
+    background-color: yellow;
+    border-radius: 5px;
+    border: 1px solid grey;
+  }
 
+  .edit:hover{
+    background-color: greenyellow;
+    cursor: pointer;
+  }
  /*Coursen muotoilu*/ 
-  #container_course{
-    width: 500px;
+  #container_wide{
+    width: 95%;
     background-color:rgb(242, 255, 240);
     border-radius: 3px;
-    padding: 0px 15px 15px 15px;
+    padding: 15px;
     margin: 10px auto;
     border: 1px solid #ddd;
   }
@@ -90,9 +104,19 @@ body {
     padding: 2px 0px;
   }
 
-  td{
+  th, td{
     width: 20px;
     border: 1px solid black;
     margin: 0px;
-    padding: 0px;
+    padding: 2px;
+    border-collapse: collapse;
+  }
+
+  .table_header{
+    font-weight: bold;
+  }
+
+  #del_scorecard_button, #edit_scorecard_button, #select_scorecard{
+    float:right;
+    margin-left: 5px;
   }
