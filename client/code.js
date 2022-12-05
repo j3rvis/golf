@@ -2,6 +2,8 @@ const fectch_address_players = "http://localhost:3000/players";
 const fectch_address_courses = "http://localhost:3000/courses";
 const fectch_address_scorecards = "http://localhost:3000/cards";
 
+
+//This function setup elements for default values and tricker queries from database
 function init() {
   let select_player = document.getElementById("select_player");
   let option_player = document.createElement("option");
@@ -50,9 +52,12 @@ function init() {
   
 }
 
-//Pelaajat osio alkaa----------------------------------------------------------
+//Players----------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 
+
+//This functions function query players database and add eventListeners for UI
 async function loadPlayers() {
   let add_player_button = document.getElementById("add_player_button");
   add_player_button.addEventListener("click", addPlayer);
@@ -66,6 +71,8 @@ async function loadPlayers() {
   // setupScorecardPlayers(players);
 }
 
+
+//Create single option-element and returns it for showPlayers function where its called
 async function createPlayerSelectItem(player) {
   let option = document.createElement("option");
   let option_attr = document.createAttribute("id");
@@ -79,6 +86,7 @@ async function createPlayerSelectItem(player) {
   return option;
 }
 
+//Append data for select-element for players also provides data further for player selection in scorecard
 function showPlayers(players) {
   let select_player = document.getElementById("select_player");
   // no players
@@ -105,7 +113,7 @@ function showPlayers(players) {
 }
 
 
-//Player info näkyisi pelaajan alapuolella, loppui aika kesken tätä kehitellessä.
+//Still in development level!!!! This would show player data as info under select player
 /* async function showPlayerInfo(id){
   // clearPlayerInfo();
   let player_info = document.getElementById('player_info')
@@ -127,7 +135,7 @@ function clearPlayerInfo(){
 } */
 
 
-
+//Get data from UI and send it to database as player
 async function addPlayer() {
   let newPlayerName = document.getElementById("input_player_name");
   let newPlayerClub = document.getElementById("input_player_club");
@@ -137,7 +145,7 @@ async function addPlayer() {
     club: newPlayerClub.value,
     age: newPlayerAge.value,
   };
-  //Ehto, että tyhjää pelaajaa voi lisätä
+  //Statement for not allowing adding "empty" players
   if (newPlayerName.value != "") {
     const response = await fetch(fectch_address_players, {
       method: "POST",
@@ -162,6 +170,7 @@ async function addPlayer() {
   }
 }
 
+//Removes player from database
 async function removePlayer() {
   let select_player = document.getElementById("select_player");
   let player_id = select_player.value;
@@ -183,6 +192,9 @@ async function removePlayer() {
   }
 }
 
+
+//This function queries data from editable player and change UI to modify data. After User has modified data and press "Tallenna". Data will queried for database.
+//This is paired with updatePlayer function
 async function editPlayer() {
 
   //Haetaan tietokannasta valitun pelaajan tiedot
@@ -213,6 +225,7 @@ async function editPlayer() {
   player_age.value = player.age
 }
 
+//See editPlayer description
 async function updatePlayer(){
   let select_player = document.getElementById('select_player')
   select_player.removeAttribute('disabled')
@@ -250,10 +263,11 @@ async function updatePlayer(){
 }
 
 
-//Radat osio alkaa----------------------------------------------------------
+//Courses-------------------------------------------------------------------
 //--------------------------------------------------------------------------
 //--------------------------------------------------------------------------
 
+//Query courses from database and provides that data for showCourses function. Also add eventListeners for course-part buttons.
 async function loadCourses() {
   let add_button = document.getElementById("add_course_button");
   add_button.addEventListener("click", addCourse);
@@ -266,7 +280,7 @@ async function loadCourses() {
   showCourses(courses);
 }
 
-
+//Crete single course option-element for select_course-element
 async function createCourseSelectItem(course) {
   let option = document.createElement("option");
   let option_attr = document.createAttribute("id");
@@ -280,6 +294,7 @@ async function createCourseSelectItem(course) {
   return option;
 }
 
+//Appends queried data for select_course-element and provides it also for coursecard_course_selection
 function showCourses(courses) {
   let select_course = document.getElementById("select_course");
   // no courses
@@ -301,10 +316,11 @@ function showCourses(courses) {
   }
 }
 
+
+//Get user added data from UI and post it to database as course
 async function addCourse() {
   let newCourseName = document.getElementById("input_course_name");
   let newCourseHoles = document.getElementById('holes')
-  console.log(newCourseHoles.children[1].firstChild.textContent)
   const data = {
     name: newCourseName.value,
     h1: newCourseHoles.children[1].firstChild.textContent, 
@@ -344,7 +360,6 @@ async function addCourse() {
       let empty_option = document.getElementById('empty_course')
       empty_option.parentNode.removeChild(empty_option)
     }
-
     newCourseName.value = "";
     newCourseHoles.children[1].firstChild.textContent = "";
     newCourseHoles.children[2].firstChild.textContent = "";
@@ -369,7 +384,7 @@ async function addCourse() {
 
 
 
-
+//Removes course from database
 async function removeCourse() {
   let select_course = document.getElementById("select_course");
   let course_id = select_course.value;
@@ -392,6 +407,8 @@ async function removeCourse() {
 }
 
 
+//This function queries data from editable course and change UI to modify data. After User has modified data and press "Tallenna". Data will queried for database.
+//This is paired with updateCourse function
 async function editCourse() {
 
   //Haetaan tietokannasta valitun pelaajan tiedot
@@ -438,7 +455,7 @@ async function editCourse() {
 }
 
 
-
+//see editCourse
 async function updateCourse(){
   let select_course = document.getElementById('select_course')
   select_course.removeAttribute('disabled')
@@ -512,11 +529,13 @@ async function updateCourse(){
 //----------------------------------------------------------------
 
 
+
+//This function query scorecards from database provides it to showScorecards funtion and add eventlisteners for buttons in scorecard section
 async function loadScorecards() {
   let add_scorecard_button = document.getElementById("save_scorecard_button");
   add_scorecard_button.addEventListener("click", addScorecard);
   let edit_scorecard_button = document.getElementById("edit_scorecard_button");
-  // edit_scorecard_button.addEventListener("click", editScorecard);
+  edit_scorecard_button.addEventListener("click", editScorecard);
   let del_scorecard_button = document.getElementById("del_scorecard_button");
   del_scorecard_button.addEventListener("click", removeScorecard);
   let response_all = await fetch(fectch_address_scorecards);
@@ -524,6 +543,8 @@ async function loadScorecards() {
   showScorecards(scorecards);
 }
 
+
+//Creates single scorecard for scorecard selecti
 async function createScorecardSelectItem(scorecard) {
   let option = document.createElement("option");
   let option_attr = document.createAttribute("id");
@@ -537,6 +558,7 @@ async function createScorecardSelectItem(scorecard) {
   return option;
 }
 
+//Append queried scorecards to select_scorecard-element as option-elements
 function showScorecards(scorecards) {
   let select_scorecard = document.getElementById("select_scorecard");
   // no scorecards
@@ -557,7 +579,8 @@ function showScorecards(scorecards) {
 }
 
 
-
+//Append queried courses for "select_course_for_scorecard-element"
+//Also add eventlistener for changed value for same element
 async function scorecardCourses(courses) {
   let select_scorecard_course = document.getElementById("select_scorecard_course");
 
@@ -584,10 +607,11 @@ async function scorecardCourses(courses) {
 }
 
 
-
+//This function queries course data and place it to cells in PAR-row when "select_course_for_scorecard" state changes
 async function changePar (){
   let select_scorecard_course = document.getElementById("select_scorecard_course");
   let id = select_scorecard_course.value
+  if(id != 'Valitse kierroskortti'){
   let response = await fetch(fectch_address_courses+'/'+id)
   let par = await response.json()
   let scorecard_par = document.getElementById('scorecard_par')
@@ -609,12 +633,31 @@ async function changePar (){
   scorecard_par.children[16].firstChild.textContent = par.h16
   scorecard_par.children[17].firstChild.textContent = par.h17
   scorecard_par.children[18].firstChild.textContent = par.h18
+  } else{
+    scorecard_par.children[1].firstChild.textContent = ""
+  scorecard_par.children[2].firstChild.textContent = ""
+  scorecard_par.children[3].firstChild.textContent = ""
+  scorecard_par.children[4].firstChild.textContent = ""
+  scorecard_par.children[5].firstChild.textContent = ""
+  scorecard_par.children[6].firstChild.textContent = ""
+  scorecard_par.children[7].firstChild.textContent = ""
+  scorecard_par.children[8].firstChild.textContent = ""
+  scorecard_par.children[9].firstChild.textContent = ""
+  scorecard_par.children[10].firstChild.textContent = ""
+  scorecard_par.children[11].firstChild.textContent = ""
+  scorecard_par.children[12].firstChild.textContent = ""
+  scorecard_par.children[13].firstChild.textContent = ""
+  scorecard_par.children[14].firstChild.textContent = ""
+  scorecard_par.children[15].firstChild.textContent = ""
+  scorecard_par.children[16].firstChild.textContent = ""
+  scorecard_par.children[17].firstChild.textContent = ""
+  scorecard_par.children[18].firstChild.textContent = ""
+  }
+
 }
 
 
-
-
-
+//This function append players for select element. User can use select element for choosing player1
 function player1_players(players){
   let player1 = document.getElementById("player1");
   // no players
@@ -636,6 +679,7 @@ function player1_players(players){
   }
 }
 
+//This function append players for select element. User can use select element for choosing player2
 function player2_players(players){
   let player2 = document.getElementById("player2");
   // no players
@@ -657,6 +701,7 @@ function player2_players(players){
   }
 }
 
+//This function append players for select element. User can use select element for choosing player3
 function player3_players(players){
   let player3 = document.getElementById("player3");
   // no players
@@ -678,6 +723,7 @@ function player3_players(players){
 }
 }
 
+//This function append players for select element. User can use select element for choosing player4
 function player4_players(players){
   let player4 = document.getElementById("player4");
   // no players
@@ -699,8 +745,8 @@ function player4_players(players){
   }
 }
 
-
-//Vaatii vielä pelaajien tulosten kirjaamisen
+//This function post data from new scorecard to database. New scorecard will be appended to select scorecard instantly after response database have been recieved
+//This function will need individual player scores per hole.
 async function addScorecard() {
   let date = new Date()
   let date_now =date.toLocaleString();
@@ -709,6 +755,10 @@ async function addScorecard() {
   let player2 = document.getElementById("player2");
   let player3 = document.getElementById("player3");
   let player4 = document.getElementById("player4");
+  let player1_score = document.getElementById('scorecard_player1')
+  let player2_score = document.getElementById('scorecard_player2')
+  let player3_score = document.getElementById('scorecard_player3')
+  let player4_score = document.getElementById('scorecard_player4')
   
   const data = {
     date: date_now,
@@ -716,7 +766,79 @@ async function addScorecard() {
     player1_id: player1.value,
     player2_id: player2.value,
     player3_id: player3.value,
-    player4_id: player4.value
+    player4_id: player4.value,
+    player1_s1: player1_score.children[1].firstChild.textContent,
+    player1_s2: player1_score.children[2].firstChild.textContent,
+    player1_s3: player1_score.children[3].firstChild.textContent,
+    player1_s4: player1_score.children[4].firstChild.textContent,
+    player1_s5: player1_score.children[5].firstChild.textContent,
+    player1_s6: player1_score.children[6].firstChild.textContent,
+    player1_s7: player1_score.children[7].firstChild.textContent,
+    player1_s8: player1_score.children[8].firstChild.textContent,
+    player1_s9: player1_score.children[9].firstChild.textContent,
+    player1_s10: player1_score.children[10].firstChild.textContent,
+    player1_s11: player1_score.children[11].firstChild.textContent,
+    player1_s12: player1_score.children[12].firstChild.textContent,
+    player1_s13: player1_score.children[13].firstChild.textContent,
+    player1_s14: player1_score.children[14].firstChild.textContent,
+    player1_s15: player1_score.children[15].firstChild.textContent,
+    player1_s16: player1_score.children[16].firstChild.textContent,
+    player1_s17: player1_score.children[17].firstChild.textContent,
+    player1_s18: player1_score.children[18].firstChild.textContent,
+    player2_s1: player2_score.children[1].firstChild.textContent,
+    player2_s2: player2_score.children[2].firstChild.textContent,
+    player2_s3: player2_score.children[3].firstChild.textContent,
+    player2_s4: player2_score.children[4].firstChild.textContent,
+    player2_s5: player2_score.children[5].firstChild.textContent,
+    player2_s6: player2_score.children[6].firstChild.textContent,
+    player2_s7: player2_score.children[7].firstChild.textContent,
+    player2_s8: player2_score.children[8].firstChild.textContent,
+    player2_s9: player2_score.children[9].firstChild.textContent,
+    player2_s10: player2_score.children[10].firstChild.textContent,
+    player2_s11: player2_score.children[11].firstChild.textContent,
+    player2_s12: player2_score.children[12].firstChild.textContent,
+    player2_s13: player2_score.children[13].firstChild.textContent,
+    player2_s14: player2_score.children[14].firstChild.textContent,
+    player2_s15: player2_score.children[15].firstChild.textContent,
+    player2_s16: player2_score.children[16].firstChild.textContent,
+    player2_s17: player2_score.children[17].firstChild.textContent,
+    player2_s18: player2_score.children[18].firstChild.textContent,
+    player3_s1: player3_score.children[1].firstChild.textContent,
+    player3_s2: player3_score.children[2].firstChild.textContent,
+    player3_s3: player3_score.children[3].firstChild.textContent,
+    player3_s4: player3_score.children[4].firstChild.textContent,
+    player3_s5: player3_score.children[5].firstChild.textContent,
+    player3_s6: player3_score.children[6].firstChild.textContent,
+    player3_s7: player3_score.children[7].firstChild.textContent,
+    player3_s8: player3_score.children[8].firstChild.textContent,
+    player3_s9: player3_score.children[9].firstChild.textContent,
+    player3_s10: player3_score.children[10].firstChild.textContent,
+    player3_s11: player3_score.children[11].firstChild.textContent,
+    player3_s12: player3_score.children[12].firstChild.textContent,
+    player3_s13: player3_score.children[13].firstChild.textContent,
+    player3_s14: player3_score.children[14].firstChild.textContent,
+    player3_s15: player3_score.children[15].firstChild.textContent,
+    player3_s16: player3_score.children[16].firstChild.textContent,
+    player3_s17: player3_score.children[17].firstChild.textContent,
+    player3_s18: player3_score.children[18].firstChild.textContent,
+    player4_s1: player4_score.children[1].firstChild.textContent,
+    player4_s2: player4_score.children[2].firstChild.textContent,
+    player4_s3: player4_score.children[3].firstChild.textContent,
+    player4_s4: player4_score.children[4].firstChild.textContent,
+    player4_s5: player4_score.children[5].firstChild.textContent,
+    player4_s6: player4_score.children[6].firstChild.textContent,
+    player4_s7: player4_score.children[7].firstChild.textContent,
+    player4_s8: player4_score.children[8].firstChild.textContent,
+    player4_s9: player4_score.children[9].firstChild.textContent,
+    player4_s10: player4_score.children[10].firstChild.textContent,
+    player4_s11: player4_score.children[11].firstChild.textContent,
+    player4_s12: player4_score.children[12].firstChild.textContent,
+    player4_s13: player4_score.children[13].firstChild.textContent,
+    player4_s14: player4_score.children[14].firstChild.textContent,
+    player4_s15: player4_score.children[15].firstChild.textContent,
+    player4_s16: player4_score.children[16].firstChild.textContent,
+    player4_s17: player4_score.children[17].firstChild.textContent,
+    player4_s18: player4_score.children[18].firstChild.textContent
   };
   //Ehto, että tyhjää pelaajaa voi lisätä
   if (player1.value != "Valitse Pelaaja" && course != "Valitse kierroskortti") {
@@ -736,14 +858,12 @@ async function addScorecard() {
       let empty_option = document.getElementById('empty_scorecard')
       empty_option.parentNode.removeChild(empty_option)
     }
+    clearScorecard();
 
-    // newPlayerName.value = "";
-    // newPlayerClub.value = "";
-    // newPlayerAge.value = "";
   }
 }
 
-
+//Removes scorecard from database
 async function removeScorecard() {
   let select_scorecard = document.getElementById("select_scorecard");
   let scorecard_id = select_scorecard.value;
@@ -763,4 +883,335 @@ async function removeScorecard() {
     placeholder_option.setAttributeNode(placeholder_id)
     select_scorecard.appendChild(placeholder_option);
   }
+}
+
+
+
+//Edit scorecard
+
+async function editScorecard() {
+
+  //Haetaan tietokannasta valitun kierroskortin tiedot
+  let select_scorecard = document.getElementById("select_scorecard");
+  let scorecard_id = select_scorecard.value;
+  let response = await fetch(fectch_address_scorecards+'/'+scorecard_id)
+  let scorecard = await response.json()
+
+  //Lukitaan muokattava kierroskortti käyttöliittymästä
+  let disabled = document.createAttribute("disabled");
+  select_scorecard.setAttributeNode(disabled);
+
+  //Muokataan käyttöliittymän lisää-painike -> tallenna-painikkeeksi
+  let scorecard_save = document.getElementById("save_scorecard_button");
+  let class_edit = document.createAttribute("class");
+  class_edit.value = "edit";
+  scorecard_save.setAttributeNode(class_edit);
+  scorecard_save.removeEventListener("click", addScorecard)
+  scorecard_save.addEventListener("click", updateScorecard)
+
+  //Lisätään tietokannasta haetut tiedot input fieldelleille
+  let course = document.getElementById("select_scorecard_course")
+  let player1 = document.getElementById("player1");
+  let player2 = document.getElementById("player2");
+  let player3 = document.getElementById("player3");
+  let player4 = document.getElementById("player4");
+
+  course.value = scorecard.course_id
+  changePar();
+  player1.value = scorecard.player1_id
+  player2.value = scorecard.player2_id
+  player3.value = scorecard.player3_id
+  player4.value = scorecard.player4_id
+  changeScorecardScores(scorecard); 
+}
+
+
+async function changeScorecardScores (scorecard){
+  let scorecard_player1 = document.getElementById('scorecard_player1')
+  scorecard_player1.children[1].firstChild.textContent = scorecard.player1_s1
+  scorecard_player1.children[2].firstChild.textContent = scorecard.player1_s2
+  scorecard_player1.children[3].firstChild.textContent = scorecard.player1_s3
+  scorecard_player1.children[4].firstChild.textContent = scorecard.player1_s4
+  scorecard_player1.children[5].firstChild.textContent = scorecard.player1_s5
+  scorecard_player1.children[6].firstChild.textContent = scorecard.player1_s6
+  scorecard_player1.children[7].firstChild.textContent = scorecard.player1_s7
+  scorecard_player1.children[8].firstChild.textContent = scorecard.player1_s8
+  scorecard_player1.children[9].firstChild.textContent = scorecard.player1_s9
+  scorecard_player1.children[10].firstChild.textContent = scorecard.player1_s10
+  scorecard_player1.children[11].firstChild.textContent = scorecard.player1_s11
+  scorecard_player1.children[12].firstChild.textContent = scorecard.player1_s12
+  scorecard_player1.children[13].firstChild.textContent = scorecard.player1_s13
+  scorecard_player1.children[14].firstChild.textContent = scorecard.player1_s14
+  scorecard_player1.children[15].firstChild.textContent = scorecard.player1_s15
+  scorecard_player1.children[16].firstChild.textContent = scorecard.player1_s16
+  scorecard_player1.children[17].firstChild.textContent = scorecard.player1_s17
+  scorecard_player1.children[18].firstChild.textContent = scorecard.player1_s18
+
+  let scorecard_player2 = document.getElementById('scorecard_player2')
+  scorecard_player2.children[1].firstChild.textContent = scorecard.player2_s1
+  scorecard_player2.children[2].firstChild.textContent = scorecard.player2_s2
+  scorecard_player2.children[3].firstChild.textContent = scorecard.player2_s3
+  scorecard_player2.children[4].firstChild.textContent = scorecard.player2_s4
+  scorecard_player2.children[5].firstChild.textContent = scorecard.player2_s5
+  scorecard_player2.children[6].firstChild.textContent = scorecard.player2_s6
+  scorecard_player2.children[7].firstChild.textContent = scorecard.player2_s7
+  scorecard_player2.children[8].firstChild.textContent = scorecard.player2_s8
+  scorecard_player2.children[9].firstChild.textContent = scorecard.player2_s9
+  scorecard_player2.children[10].firstChild.textContent = scorecard.player2_s10
+  scorecard_player2.children[11].firstChild.textContent = scorecard.player2_s11
+  scorecard_player2.children[12].firstChild.textContent = scorecard.player2_s12
+  scorecard_player2.children[13].firstChild.textContent = scorecard.player2_s13
+  scorecard_player2.children[14].firstChild.textContent = scorecard.player2_s14
+  scorecard_player2.children[15].firstChild.textContent = scorecard.player2_s15
+  scorecard_player2.children[16].firstChild.textContent = scorecard.player2_s16
+  scorecard_player2.children[17].firstChild.textContent = scorecard.player2_s17
+  scorecard_player2.children[18].firstChild.textContent = scorecard.player2_s18
+
+  let scorecard_player3 = document.getElementById('scorecard_player3')
+  scorecard_player3.children[1].firstChild.textContent = scorecard.player3_s1
+  scorecard_player3.children[2].firstChild.textContent = scorecard.player3_s2
+  scorecard_player3.children[3].firstChild.textContent = scorecard.player3_s3
+  scorecard_player3.children[4].firstChild.textContent = scorecard.player3_s4
+  scorecard_player3.children[5].firstChild.textContent = scorecard.player3_s5
+  scorecard_player3.children[6].firstChild.textContent = scorecard.player3_s6
+  scorecard_player3.children[7].firstChild.textContent = scorecard.player3_s7
+  scorecard_player3.children[8].firstChild.textContent = scorecard.player3_s8
+  scorecard_player3.children[9].firstChild.textContent = scorecard.player3_s9
+  scorecard_player3.children[10].firstChild.textContent = scorecard.player3_s10
+  scorecard_player3.children[11].firstChild.textContent = scorecard.player3_s11
+  scorecard_player3.children[12].firstChild.textContent = scorecard.player3_s12
+  scorecard_player3.children[13].firstChild.textContent = scorecard.player3_s13
+  scorecard_player3.children[14].firstChild.textContent = scorecard.player3_s14
+  scorecard_player3.children[15].firstChild.textContent = scorecard.player3_s15
+  scorecard_player3.children[16].firstChild.textContent = scorecard.player3_s16
+  scorecard_player3.children[17].firstChild.textContent = scorecard.player3_s17
+  scorecard_player3.children[18].firstChild.textContent = scorecard.player3_s18
+
+  let scorecard_player4 = document.getElementById('scorecard_player4')
+  scorecard_player4.children[1].firstChild.textContent = scorecard.player4_s1
+  scorecard_player4.children[2].firstChild.textContent = scorecard.player4_s2
+  scorecard_player4.children[3].firstChild.textContent = scorecard.player4_s3
+  scorecard_player4.children[4].firstChild.textContent = scorecard.player4_s4
+  scorecard_player4.children[5].firstChild.textContent = scorecard.player4_s5
+  scorecard_player4.children[6].firstChild.textContent = scorecard.player4_s6
+  scorecard_player4.children[7].firstChild.textContent = scorecard.player4_s7
+  scorecard_player4.children[8].firstChild.textContent = scorecard.player4_s8
+  scorecard_player4.children[9].firstChild.textContent = scorecard.player4_s9
+  scorecard_player4.children[10].firstChild.textContent = scorecard.player4_s10
+  scorecard_player4.children[11].firstChild.textContent = scorecard.player4_s11
+  scorecard_player4.children[12].firstChild.textContent = scorecard.player4_s12
+  scorecard_player4.children[13].firstChild.textContent = scorecard.player4_s13
+  scorecard_player4.children[14].firstChild.textContent = scorecard.player4_s14
+  scorecard_player4.children[15].firstChild.textContent = scorecard.player4_s15
+  scorecard_player4.children[16].firstChild.textContent = scorecard.player4_s16
+  scorecard_player4.children[17].firstChild.textContent = scorecard.player4_s17
+  scorecard_player4.children[18].firstChild.textContent = scorecard.player4_s18
+
+}
+
+
+async function updateScorecard(){
+
+  let select_scorecard = document.getElementById('select_scorecard')
+  select_scorecard.removeAttribute('disabled')
+  let id = select_scorecard.value
+  let course_id = document.getElementById("select_scorecard_course");
+  let player1_id = document.getElementById("player1");
+  let player2_id = document.getElementById("player2");
+  let player3_id = document.getElementById("player3");
+  let player4_id = document.getElementById("player4");
+  let player1_score = document.getElementById("scorecard_player1");
+  let player2_score = document.getElementById("scorecard_player2");
+  let player3_score = document.getElementById("scorecard_player3");
+  let player4_score = document.getElementById("scorecard_player4");
+
+
+  let data = {
+    'course_id': course_id.value,
+    'player1_id': player1_id.value,
+    'player2_id': player2_id.value,
+    'player3_id': player3_id.value,
+    'player4_id': player4_id.value,
+    'player1_s1': player1_score.children[1].firstChild.textContent,
+    'player1_s2': player1_score.children[2].firstChild.textContent,
+    'player1_s3': player1_score.children[3].firstChild.textContent,
+    'player1_s4': player1_score.children[4].firstChild.textContent,
+    'player1_s5': player1_score.children[5].firstChild.textContent,
+    'player1_s6': player1_score.children[6].firstChild.textContent,
+    'player1_s7': player1_score.children[7].firstChild.textContent,
+    'player1_s8': player1_score.children[8].firstChild.textContent,
+    'player1_s9': player1_score.children[9].firstChild.textContent,
+    'player1_s10': player1_score.children[10].firstChild.textContent,
+    'player1_s11': player1_score.children[11].firstChild.textContent,
+    'player1_s12': player1_score.children[12].firstChild.textContent,
+    'player1_s13': player1_score.children[13].firstChild.textContent,
+    'player1_s14': player1_score.children[14].firstChild.textContent,
+    'player1_s15': player1_score.children[15].firstChild.textContent,
+    'player1_s16': player1_score.children[16].firstChild.textContent,
+    'player1_s17': player1_score.children[17].firstChild.textContent,
+    'player1_s18': player1_score.children[18].firstChild.textContent,
+    'player2_s1': player2_score.children[1].firstChild.textContent,
+    'player2_s2': player2_score.children[2].firstChild.textContent,
+    'player2_s3': player2_score.children[3].firstChild.textContent,
+    'player2_s4': player2_score.children[4].firstChild.textContent,
+    'player2_s5': player2_score.children[5].firstChild.textContent,
+    'player2_s6': player2_score.children[6].firstChild.textContent,
+    'player2_s7': player2_score.children[7].firstChild.textContent,
+    'player2_s8': player2_score.children[8].firstChild.textContent,
+    'player2_s9': player2_score.children[9].firstChild.textContent,
+    'player2_s10': player2_score.children[10].firstChild.textContent,
+    'player2_s11': player2_score.children[11].firstChild.textContent,
+    'player2_s12': player2_score.children[12].firstChild.textContent,
+    'player2_s13': player2_score.children[13].firstChild.textContent,
+    'player2_s14': player2_score.children[14].firstChild.textContent,
+    'player2_s15': player2_score.children[15].firstChild.textContent,
+    'player2_s16': player2_score.children[16].firstChild.textContent,
+    'player2_s17': player2_score.children[17].firstChild.textContent,
+    'player2_s18': player2_score.children[18].firstChild.textContent,
+    'player3_s1': player3_score.children[1].firstChild.textContent,
+    'player3_s2': player3_score.children[2].firstChild.textContent,
+    'player3_s3': player3_score.children[3].firstChild.textContent,
+    'player3_s4': player3_score.children[4].firstChild.textContent,
+    'player3_s5': player3_score.children[5].firstChild.textContent,
+    'player3_s6': player3_score.children[6].firstChild.textContent,
+    'player3_s7': player3_score.children[7].firstChild.textContent,
+    'player3_s8': player3_score.children[8].firstChild.textContent,
+    'player3_s9': player3_score.children[9].firstChild.textContent,
+    'player3_s10': player3_score.children[10].firstChild.textContent,
+    'player3_s11': player3_score.children[11].firstChild.textContent,
+    'player3_s12': player3_score.children[12].firstChild.textContent,
+    'player3_s13': player3_score.children[13].firstChild.textContent,
+    'player3_s14': player3_score.children[14].firstChild.textContent,
+    'player3_s15': player3_score.children[15].firstChild.textContent,
+    'player3_s16': player3_score.children[16].firstChild.textContent,
+    'player3_s17': player3_score.children[17].firstChild.textContent,
+    'player3_s18': player3_score.children[18].firstChild.textContent,
+    'player4_s1': player4_score.children[1].firstChild.textContent,
+    'player4_s2': player4_score.children[2].firstChild.textContent,
+    'player4_s3': player4_score.children[3].firstChild.textContent,
+    'player4_s4': player4_score.children[4].firstChild.textContent,
+    'player4_s5': player4_score.children[5].firstChild.textContent,
+    'player4_s6': player4_score.children[6].firstChild.textContent,
+    'player4_s7': player4_score.children[7].firstChild.textContent,
+    'player4_s8': player4_score.children[8].firstChild.textContent,
+    'player4_s9': player4_score.children[9].firstChild.textContent,
+    'player4_s10': player4_score.children[10].firstChild.textContent,
+    'player4_s11': player4_score.children[11].firstChild.textContent,
+    'player4_s12': player4_score.children[12].firstChild.textContent,
+    'player4_s13': player4_score.children[13].firstChild.textContent,
+    'player4_s14': player4_score.children[14].firstChild.textContent,
+    'player4_s15': player4_score.children[15].firstChild.textContent,
+    'player4_s16': player4_score.children[16].firstChild.textContent,
+    'player4_s17': player4_score.children[17].firstChild.textContent,
+    'player4_s18': player4_score.children[18].firstChild.textContent
+  }
+
+  let response = await fetch(fectch_address_scorecards+'/'+id, {
+    method: 'PUT',
+    headers:{'content-type': 'application/json'},
+    body: JSON.stringify(data)
+  })
+
+  let response_update = await response.json()
+
+  changePar();
+  clearScores();
+
+  let updateButton = document.getElementById('save_scorecard_button')
+  updateButton.removeEventListener("click", updateScorecard)
+  updateButton.addEventListener("click", addScorecard)
+  updateButton.removeAttribute("class")
+
+}
+
+
+function clearScorecard(){
+  let course_id = document.getElementById("select_scorecard_course");
+  let player1_id = document.getElementById("player1");
+  let player2_id = document.getElementById("player2");
+  let player3_id = document.getElementById("player3");
+  let player4_id = document.getElementById("player4");
+  let player1_score = document.getElementById("scorecard_player1");
+  let player2_score = document.getElementById("scorecard_player2");
+  let player3_score = document.getElementById("scorecard_player3");
+  let player4_score = document.getElementById("scorecard_player4");
+
+  course_id.value = "Valitse kierroskortti"
+  player1_id.value = "Valitse Pelaaja"
+  player2_id.value = "Valitse Pelaaja"
+  player3_id.value = "Valitse Pelaaja"
+  player4_id.value = "Valitse Pelaaja"
+
+  player1_score.children[1].firstChild.textContent = ""
+  player1_score.children[2].firstChild.textContent = ""
+  player1_score.children[3].firstChild.textContent = ""
+  player1_score.children[4].firstChild.textContent = ""
+  player1_score.children[5].firstChild.textContent = ""
+  player1_score.children[6].firstChild.textContent = ""
+  player1_score.children[7].firstChild.textContent = ""
+  player1_score.children[8].firstChild.textContent = ""
+  player1_score.children[9].firstChild.textContent = ""
+  player1_score.children[10].firstChild.textContent = ""
+  player1_score.children[11].firstChild.textContent = ""
+  player1_score.children[12].firstChild.textContent = ""
+  player1_score.children[13].firstChild.textContent = ""
+  player1_score.children[14].firstChild.textContent = ""
+  player1_score.children[15].firstChild.textContent = ""
+  player1_score.children[16].firstChild.textContent = ""
+  player1_score.children[17].firstChild.textContent = ""
+  player1_score.children[18].firstChild.textContent = ""
+  player2_score.children[1].firstChild.textContent = ""
+  player2_score.children[2].firstChild.textContent = ""
+  player2_score.children[3].firstChild.textContent = ""
+  player2_score.children[4].firstChild.textContent = ""
+  player2_score.children[5].firstChild.textContent = ""
+  player2_score.children[6].firstChild.textContent = ""
+  player2_score.children[7].firstChild.textContent = ""
+  player2_score.children[8].firstChild.textContent = ""
+  player2_score.children[9].firstChild.textContent = ""
+  player2_score.children[10].firstChild.textContent = ""
+  player2_score.children[11].firstChild.textContent = ""
+  player2_score.children[12].firstChild.textContent = ""
+  player2_score.children[13].firstChild.textContent = ""
+  player2_score.children[14].firstChild.textContent = ""
+  player2_score.children[15].firstChild.textContent = ""
+  player2_score.children[16].firstChild.textContent = ""
+  player2_score.children[17].firstChild.textContent = ""
+  player2_score.children[18].firstChild.textContent = ""
+  player3_score.children[1].firstChild.textContent = ""
+  player3_score.children[2].firstChild.textContent = ""
+  player3_score.children[3].firstChild.textContent = ""
+  player3_score.children[4].firstChild.textContent = ""
+  player3_score.children[5].firstChild.textContent = ""
+  player3_score.children[6].firstChild.textContent = ""
+  player3_score.children[7].firstChild.textContent = ""
+  player3_score.children[8].firstChild.textContent = ""
+  player3_score.children[9].firstChild.textContent = ""
+  player3_score.children[10].firstChild.textContent = ""
+  player3_score.children[11].firstChild.textContent = ""
+  player3_score.children[12].firstChild.textContent = ""
+  player3_score.children[13].firstChild.textContent = ""
+  player3_score.children[14].firstChild.textContent = ""
+  player3_score.children[15].firstChild.textContent = ""
+  player3_score.children[16].firstChild.textContent = ""
+  player3_score.children[17].firstChild.textContent = ""
+  player3_score.children[18].firstChild.textContent = ""
+  player4_score.children[1].firstChild.textContent = ""
+  player4_score.children[2].firstChild.textContent = ""
+  player4_score.children[3].firstChild.textContent = ""
+  player4_score.children[4].firstChild.textContent = ""
+  player4_score.children[5].firstChild.textContent = ""
+  player4_score.children[6].firstChild.textContent = ""
+  player4_score.children[7].firstChild.textContent = ""
+  player4_score.children[8].firstChild.textContent = ""
+  player4_score.children[9].firstChild.textContent = ""
+  player4_score.children[10].firstChild.textContent = ""
+  player4_score.children[11].firstChild.textContent = ""
+  player4_score.children[12].firstChild.textContent = ""
+  player4_score.children[13].firstChild.textContent = ""
+  player4_score.children[14].firstChild.textContent = ""
+  player4_score.children[15].firstChild.textContent = ""
+  player4_score.children[16].firstChild.textContent = ""
+  player4_score.children[17].firstChild.textContent = ""
+  player4_score.children[18].firstChild.textContent = ""
 }
