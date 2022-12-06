@@ -544,7 +544,7 @@ async function loadScorecards() {
 }
 
 
-//Creates single scorecard for scorecard selecti
+//Creates single scorecard for scorecard select
 async function createScorecardSelectItem(scorecard) {
   let option = document.createElement("option");
   let option_attr = document.createAttribute("id");
@@ -925,7 +925,7 @@ async function editScorecard() {
   changeScorecardScores(scorecard); 
 }
 
-
+//This function 
 async function changeScorecardScores (scorecard){
   let scorecard_player1 = document.getElementById('scorecard_player1')
   scorecard_player1.children[1].firstChild.textContent = scorecard.player1_s1
@@ -1115,7 +1115,7 @@ async function updateScorecard(){
   let response_update = await response.json()
 
   changePar();
-  clearScores();
+  clearScorecard();
 
   let updateButton = document.getElementById('save_scorecard_button')
   updateButton.removeEventListener("click", updateScorecard)
